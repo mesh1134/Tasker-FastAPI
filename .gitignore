@@ -1,0 +1,14 @@
+# Ignore the Virtual Environment folder
+.venv/
+venv/
+
+# Ignore PyCharm settings
+.idea/
+
+# Ignore compiled Python files (automatically created)
+__pycache__/
+*.pyc
+
+# Ignore the local database (to not overwrite the live one)
+*.db
+*.sqlite
