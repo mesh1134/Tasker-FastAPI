@@ -1,12 +1,11 @@
 from pydantic import BaseModel
-from sqlalchemy import table
 from sqlmodel import SQLModel, Field
 from typing import Optional
 from datetime import datetime
 
 class TaskCreate(BaseModel):
-    Name: str
-    Deadline: datetime
+    name: str
+    deadline: datetime
 
 
 class User(SQLModel, table=True):

@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from fastapi import (
@@ -16,11 +17,10 @@ from fastapi.responses import (
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from sqlmodel import Session, select
-from database import engine, get_session, create_db_and_tables
-from models import User, Task, TaskCreate
+from passlib.context import CryptContext
 from contextlib import asynccontextmanager
 from starlette.middleware.sessions import SessionMiddleware
+
 
 from sqlmodel import Session, select
 from database import get_session, create_db_and_tables
@@ -82,7 +82,6 @@ async def register_page(request: Request):
 
 @app.post("/register")
 async def register(
-        request: Request,
         username: str = Form(...),
         password: str = Form(...),
         db: Session = Depends(get_session)
@@ -128,8 +127,8 @@ async def create_task(
 ):
     user_id = require_login(request)
     new_task = Task(
-        name=task_data.Name,
-        deadline=task_data.Deadline,
+        name=task_data.name,
+        deadline=task_data.deadline,
         owner_id=user_id
     )
     db.add(new_task)
@@ -183,8 +182,8 @@ async def update_task(
         raise HTTPException(404, "Task not found")
 
     # Update fields with the new data
-    task.name = task_data.Name
-    task.deadline = task_data.Deadline
+    task.name = task_data.name
+    task.deadline = task_data.deadline
 
     db.add(task)
     db.commit()

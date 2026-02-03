@@ -98,7 +98,7 @@ function formatDeadline(deadline) {
 async function addTask(newTaskName, newTaskDeadline) {
     if (!newTaskName || !newTaskDeadline) return;
 
-    const newTask = await apiRequest(tasksURL, "POST", { Name: newTaskName, Deadline: newTaskDeadline });
+    const newTask = await apiRequest(tasksURL, "POST", { name: newTaskName, deadline: newTaskDeadline });
     if (newTask) await fetchTasks();
 }
 
@@ -162,7 +162,7 @@ function createTaskInputForm(existingTask, onConfirm) {
     deadlineInput.required = true;
 
     // Fix: Handle potential case differences (Deadline vs deadline) safely
-    let dateVal = existingTask?.Deadline || existingTask?.deadline;
+    let dateVal = existingTask?.deadline || "";
 
     if (dateVal && !Number.isNaN(new Date(dateVal))) {
         deadlineInput.value = new Date(dateVal).toISOString().slice(0, -8);
@@ -189,13 +189,11 @@ function createTaskInputForm(existingTask, onConfirm) {
 }
 
 //Edit task
-async function editTask(button, id, currentName, currentDeadline) {
-    const parentElement = button.parentElement.parentElement; // Go up to the <li>
-
-    // We pass lowercase values (currentName) but the form will use them correctly
-    // The "onConfirm" callback sends CAPITALIZED keys (Name, Deadline) to match Pydantic
-    parentElement.appendChild(createTaskInputForm({ name: currentName, Deadline: currentDeadline }, async(newName, newDeadline)=>{
-        if (await apiRequest(`${tasksURL}/${id}`, "PUT", { Name: newName, Deadline: newDeadline })) {
+async function editTask(button, id) {
+    const parentElement = button.parentElement;
+    parentElement.appendChild(createTaskInputForm({ name: "", deadline: "" }, async(newName, newDeadline)=>{
+        // Sending Lowercase Keys here:
+        if (await apiRequest(`${apiUrl}/${id}`, "PUT", { name: newName, deadline: newDeadline })) {
             await fetchTasks();
         }
     }));
