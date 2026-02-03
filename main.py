@@ -1,7 +1,18 @@
 from typing import List
 
-from fastapi import FastAPI, Depends, Request, Form, status, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse, Response
+from fastapi import (
+    FastAPI,
+    Depends,
+    Request,
+    Form,
+    status,
+    HTTPException
+)
+from fastapi.responses import (
+    HTMLResponse,
+    RedirectResponse,
+    Response
+)
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
