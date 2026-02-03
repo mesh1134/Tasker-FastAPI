@@ -14,6 +14,10 @@
         <h1>Welcome back to <span>Tasker</span></h1>
         <p>Please enter your credentials to log in.</p>
 
+        <div id="error-msg" style="display: none; color: #e74c3c; background: #fadbd8; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9em;">
+            <i class="fa-solid fa-circle-exclamation"></i> Invalid Username or Password
+        </div>
+
         <form id="Login_Form" class="auth-form" method="post" action="/login">
             <div class="input-group">
                 <label for="username">Username:</label>
@@ -27,6 +31,15 @@
 
             <button type="submit" class="auth-button">Login</button>
         </form>
+
+        <script>
+            // Check if the URL has "?error=invalid"
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error') === 'invalid') {
+                // Un-hide the error message
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        </script>
 
         <div class="auth-footer">
             <p>Don't have an account? <a id="register_here" href="/register">Register here!</a></p>

@@ -70,7 +70,7 @@ async def login(
 ):
     user = db.exec(select(User).where(User.username == username)).first()
     if not user or not pwd_context.verify(password, user.password_hash):
-        return HTMLResponse("Invalid Credentials", status_code=401)
+        return RedirectResponse(url="/login?error=invalid", status_code=status.HTTP_303_SEE_OTHER)
 
     request.session["user_id"] = user.id
     request.session["username"] = user.username
