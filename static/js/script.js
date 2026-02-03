@@ -193,7 +193,7 @@ async function editTask(button, id) {
     const parentElement = button.parentElement;
     parentElement.appendChild(createTaskInputForm({ name: "", deadline: "" }, async(newName, newDeadline)=>{
         // Sending Lowercase Keys here:
-        if (await apiRequest(`${apiUrl}/${id}`, "PUT", { name: newName, deadline: newDeadline })) {
+        if (await apiRequest(`${tasksURL}/${id}`, "PUT", { name: newName, deadline: newDeadline })) {
             await fetchTasks();
         }
     }));
