@@ -21,7 +21,11 @@ from database import engine, get_session, create_db_and_tables
 from models import User, Task, TaskCreate
 from contextlib import asynccontextmanager
 from starlette.middleware.sessions import SessionMiddleware
-from passlib.context import CryptContext
+
+from sqlmodel import Session, select
+from database import get_session, create_db_and_tables
+from models import User, Task, TaskCreate
+
 
 @asynccontextmanager
 async def life_span(app: FastAPI):
